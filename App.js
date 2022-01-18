@@ -4,28 +4,24 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 // import { useState } from 'react/cjs/react.development';
 import CountDown from './src/components/CountDown';
 import { atom, useAtom, Provider } from 'jotai'
+import * as jotaiAtom from './src/utils/jotaiAtom'
 
 /* atom() should be out of components */
-const appearAtom = atom(false)
-const appearToggleAtom = atom(
-  (get) => get(appearAtom),
-  (get, set) => {
-    set(appearAtom, true)
-  },
-)
+// const appearAtom = atom(false)
+// const appearToggleAtom = atom(
+//   (get) => get(appearAtom),
+//   (get, set) => {
+//     set(appearAtom, true)
+//   },
+// )
 
 export default function App() {
-  const [appear, setAppear] = useAtom(appearToggleAtom)
+  const [appear, setAppear] = useAtom(jotaiAtom.appearToggleAtom)
 
   const startGetChoice = () => {
     console.log('startGetChoice');
     setAppear()
   }
-  // const EndGetChoice = () => {
-  //   console.log('EndGetChoice');
-  //   setAppear(false)
-  // }
-
   // const allert = () => {
   //   Alert.alert("aaaa")
   // }
@@ -38,7 +34,7 @@ export default function App() {
         <Text>{appear == false ? "1" : "2"}</Text>
         <Button title="Click!" onPress={() => startGetChoice()} />
         {appear == true ?
-          <CountDown/>
+          <CountDown appear={appear == false ? "1" : "2"}/>
           :
           <View></View>
         }

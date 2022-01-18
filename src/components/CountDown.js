@@ -1,16 +1,29 @@
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useAtom } from 'jotai'
+import * as jotaiAtom from '../utils/jotaiAtom'
 import * as Animatable from 'react-native-animatable';
 
+
 const CountDown = () => {
+  const [appear, setAppear] = useAtom(jotaiAtom.appearToggleAtom)
+  console.log('appear: ', appear);
+  
+  const EndGetChoice = () => {
+    console.log('EndGetChoice');
+    setAppear(false)
+  }
+
   return (
     <View style={styles.countDownArea}>
       <Animatable.Text
         animation="zoomIn"
         style={styles.countDownItem}
         iterationCount={1}
-        // onAnimationEnd={() => EndGetChoice()}
+        onAnimationEnd={() => EndGetChoice()}
       >
-        The choice is...
+        <Text>
+          The choice is...{appear == false ? "1" : "2"}
+        </Text>
       </Animatable.Text>
     </View>
   )
