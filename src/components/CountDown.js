@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useAtom } from 'jotai'
-import * as jotaiAtom from '../utils/jotaiAtom'
+// import { useAtom } from 'jotai'
+// import * as jotaiAtom from '../utils/jotaiAtom'
+import { useRecoilState } from 'recoil';
+import { appearState } from '../utils/recoilAtom'
 import * as Animatable from 'react-native-animatable';
 
 
 const CountDown = () => {
-  const [appear, setAppear] = useAtom(jotaiAtom.appearToggleAtom)
+  const [appear, setAppear] = useRecoilState(appearState)
   console.log('appear: ', appear);
   
   const EndGetChoice = () => {
