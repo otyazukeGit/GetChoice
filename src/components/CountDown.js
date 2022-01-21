@@ -1,32 +1,61 @@
 import { StyleSheet, Text, View } from 'react-native';
-// import { useAtom } from 'jotai'
-// import * as jotaiAtom from '../utils/jotaiAtom'
 import { useRecoilState } from 'recoil';
-import { appearState } from '../utils/recoilAtom'
+import { appearState, animationCountState } from '../utils/recoilAtom'
 import * as Animatable from 'react-native-animatable';
 
 
 const CountDown = () => {
   const [appear, setAppear] = useRecoilState(appearState)
-  console.log('appear: ', appear);
+  const [animationCount, setAnimationCount] = useRecoilState(animationCountState)
   
   const EndGetChoice = () => {
     console.log('EndGetChoice');
     setAppear(false)
   }
 
+  const animate = () => {
+    console.log("animate");
+    switch (animationCount) {
+      case 0:
+        setAnimationCount(1)
+        break
+      case 1:
+        setAnimationCount(2)
+        setAppear(false)
+        break
+      case 2:
+        // setAnimationCount(0)
+        setAppear(false)
+        break
+      default:
+    }
+  }
+
   return (
     <View style={styles.countDownArea}>
-      <Animatable.Text
-        animation="zoomIn"
-        style={styles.countDownItem}
-        iterationCount={1}
-        onAnimationEnd={() => EndGetChoice()}
-      >
-        <Text>
-          The choice is...{appear == false ? "1" : "2"}
-        </Text>
-      </Animatable.Text>
+      {animationCount === 0 ?
+        <Animatable.Text
+          animation="zoomIn"
+          style={styles.countDownItem}
+          iterationCount={1}
+          onAnimationEnd={() => animate()}
+        >
+          <Text>
+            The choice is...{appear == false ? "1" : "2"}...{animationCount}
+          </Text>
+        </Animatable.Text>
+        :
+        <Animatable.Text
+          animation="zoomInDown"
+          style={styles.countDownItem}
+          iterationCount={1}
+          onAnimationEnd={() => animate()}
+        >
+          <Text>
+            The choice is...{appear == false ? "1" : "2"}...{animationCount}
+          </Text>
+        </Animatable.Text>
+       }
     </View>
   )
 }
