@@ -7,5 +7,5 @@ export const appearState = atom({
 
 export const animationCountState = atom({
   key: "animationCountState",
-  default: 0
+  default: 3
 })
