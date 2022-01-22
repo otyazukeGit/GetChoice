@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useRecoilState } from 'recoil';
-import { appearState, animationCountState } from '../utils/recoilAtom'
+import { appearState, animationCountState, modalVisibleState } from '../utils/recoilAtom'
 import * as Animatable from 'react-native-animatable';
 
 
 const CountDown = () => {
   const [appear, setAppear] = useRecoilState(appearState)
   const [animationCount, setAnimationCount] = useRecoilState(animationCountState)
+  const [modalVisible, setModalVisible] = useRecoilState(modalVisibleState)
   
   const animate = () => {
     console.log("animate");
@@ -20,6 +21,7 @@ const CountDown = () => {
       case 1:
         setAnimationCount(3)
         setAppear(false)
+        setModalVisible(true)
         break
       default:
         break
@@ -62,9 +64,6 @@ const styles = StyleSheet.create({
   countDownItem: {
     fontSize: 80
   },
-  notAppear: {
-    display:"none"
-  }
 });
 
 export default CountDown
