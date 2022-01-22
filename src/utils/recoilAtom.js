@@ -10,6 +10,15 @@ export const animationCountState = atom({
   default: 3
 })
 
+export const choiceListState = atom({
+  key: "choiceListState",
+  default: [
+    'A',
+    'B',
+    'C'
+  ]
+})
+
 export const modalVisibleState = atom({
   key: "modalVisibleState",
   default: false

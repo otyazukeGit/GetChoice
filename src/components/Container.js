@@ -1,18 +1,21 @@
 import { useRecoilState } from 'recoil';
-import { appearState, modalVisibleState } from '../utils/recoilAtom'
+import { appearState, modalVisibleState, choiceListState } from '../utils/recoilAtom'
 import CountDown from './CountDown';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, Pressable } from 'react-native';
 
 export const Container = () => {
   const [appear, setAppear] = useRecoilState(appearState)
-
-  // const [modalVisible, setModalVisible] = useState(true)
   const [modalVisible, setModalVisible] = useRecoilState(modalVisibleState)
+  const [choiceList, setChoiceList] = useRecoilState(choiceListState)
 
   const startGetChoice = () => {
     console.log('startGetChoice');
     setAppear(true)
+  }
+
+  const getChoice = () => {
+    return choiceList[Math.floor(Math.random() * choiceList.length)]
   }
 
   const ShowChoiceModal = () => {
@@ -23,12 +26,12 @@ export const Container = () => {
           visible={modalVisible}
           transparent={true}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            // Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
         >
           <View style={stylesModal.modalAreaTextPosition}>
-            <Text style={stylesModal.modalAreaText}>hello</Text>
+            <Text style={stylesModal.modalAreaText}>{getChoice()}</Text>
             <Pressable
               style={[stylesModal.button, stylesModal.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
@@ -43,9 +46,14 @@ export const Container = () => {
 
   return (
     <View style={styles.container}>
-    <Text>Decide your choice instantly.</Text>
+      <Text style={styles.text}>Decide your choice instantly.</Text>
     <StatusBar style="auto" />
-      <Button title="Get your choice!!" onPress={() => startGetChoice()} />
+      <Button
+        // style={styles.button}
+        color="blue"  //text (iOS) or background color (Android).
+        title="Press"
+        onPress={() => startGetChoice()}
+      />
       {appear == true ?
         <CountDown />
         :
@@ -59,6 +67,18 @@ export const Container = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 23
+  },
+})
 
 const stylesModal = StyleSheet.create({
   modalArea: {
@@ -89,14 +109,5 @@ const stylesModal = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: "powderblue",
-  },
-})
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
