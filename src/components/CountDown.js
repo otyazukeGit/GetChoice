@@ -58,8 +58,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 300,
     width: 300,
+    borderColor: 'skyblue',
+    borderWidth: 5,
     borderRadius: 300/2,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#fff',
   },
   countDownItem: {
     fontSize: 80

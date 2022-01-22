@@ -17,7 +17,7 @@ export const Container = () => {
 
   const ShowChoiceModal = () => {
     return (
-      <View style={styles.modalArea}>
+      <View style={stylesModal.modalArea}>
         <Modal
           animationType="fade"
           visible={modalVisible}
@@ -27,13 +27,13 @@ export const Container = () => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.modalAreaTextPosition}>
-            <Text style={styles.modalAreaText}>hello</Text>
+          <View style={stylesModal.modalAreaTextPosition}>
+            <Text style={stylesModal.modalAreaText}>hello</Text>
             <Pressable
-              style={[styles.button, styles.buttonClose]}
+              style={[stylesModal.button, stylesModal.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <Text style={styles.textStyle}>OK</Text>
+              <Text style={stylesModal.textStyle}>OK</Text>
             </Pressable>
           </View>
         </Modal>
@@ -60,13 +60,7 @@ export const Container = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const stylesModal = StyleSheet.create({
   modalArea: {
     position: "absolute",
     flex: 1,
@@ -95,5 +89,14 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: "powderblue",
+  },
+})
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
