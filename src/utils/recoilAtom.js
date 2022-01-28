@@ -23,3 +23,9 @@ export const modalVisibleState = atom({
   key: "modalVisibleState",
   default: false
 })
+
+export const textState = atom({
+  key: "textState",
+  default: ""
+})
+
