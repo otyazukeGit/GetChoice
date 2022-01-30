@@ -13,33 +13,44 @@ export const Container = () => {
   const [choiceList, setChoiceList] = useRecoilState(choiceListState)
   
   const [text, onChangeText] = useRecoilState(textState)
+  
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-  ];
+  // const DATA = [
+  //   {
+  //     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+  //     title: 'First Item',
+  //   },
+  //   {
+  //     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+  //     title: 'Second Item',
+  //   },
+  //   {
+  //     id: '58694a0f-3da1-471f-bd96-145571e29d72',
+  //     title: 'Third Item',
+  //   },
+  // ]
 
-  const Item = ({ title }) => (
+  const Item = ({ item }) => (
     <View>
       {/* <Text style={styles.title}>{title}</Text> */}
       <TextInput
+        name={item.id}
+        onChangeText={choice => NewChoiceList(item.id, choice)}
+        // onChangeText={choice => onChangeText(choice)}
         style={styleFlatList.item}
-        placeholder={title}
+        placeholder={item.choice}
+        value={item.choice}
       />
     </View>
   )
 
-  const renderItem = ({ item }) => <Item title={item.title} />
+  const renderItem = ({ item }) => <Item item={item} />
+
+  const NewChoiceList = (id, choice) => {
+    console.log('choice: ', choice);
+    console.log('id: ', id);
+
+  }
 
   const startGetChoice = () => {
     console.log('startGetChoice');
@@ -47,7 +58,7 @@ export const Container = () => {
   }
 
   const getChoice = () => {
-    return choiceList[Math.floor(Math.random() * choiceList.length)]
+    return choiceList[Math.floor(Math.random() * choiceList.length)].choice
   }
 
   const ShowChoiceModal = () => {
@@ -86,15 +97,18 @@ export const Container = () => {
         title="Press"
         onPress={() => startGetChoice()}
       />
-      <TextInput
+      {/* <TextInput
         onChangeText={text => onChangeText(text)}
         value={text}
         placeholder="by walk"
-      />
+      /> */}
       <Text style={styles.textArea}>List:</Text>
       <FlatList
         style={styleFlatList.flatList}
-        data={DATA} renderItem={renderItem} keyExtractor={item => item.id}
+        data={choiceList}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        // extraData={selectedId}
       />
       {appear == true ?
         <CountDown />
