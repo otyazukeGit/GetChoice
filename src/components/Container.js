@@ -1,55 +1,41 @@
-// import React from 'react';
 import { useRecoilState } from 'recoil';
 import { appearState, modalVisibleState, choiceListState, textState } from '../utils/recoilAtom'
 import CountDown from './CountDown';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, FlatList } from 'react-native';
-// import { TextInput } from 'react-native-web';
-// import { useState } from 'react/cjs/react.production.min';
+
+  const Item = ({ item, EditNewChoice }) => (
+    <View>
+      <TextInput
+        name={item.id}
+        onChangeText={choice => EditNewChoice(item.id, choice)}
+        style={styleFlatList.item}
+        placeholder={item.choice}
+        value={item.choice}
+      />
+    </View>
+  ) 
+
+  const textList = (items, EditNewChoice) => {
+    return items.map((item) => {
+      return <Item key={item.id} item={item} EditNewChoice={EditNewChoice}/>
+    })
+  }
 
 export const Container = () => {
   const [appear, setAppear] = useRecoilState(appearState)
   const [modalVisible, setModalVisible] = useRecoilState(modalVisibleState)
   const [choiceList, setChoiceList] = useRecoilState(choiceListState)
   
-  const [text, onChangeText] = useRecoilState(textState)
-  
-
-  // const DATA = [
-  //   {
-  //     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-  //     title: 'First Item',
-  //   },
-  //   {
-  //     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-  //     title: 'Second Item',
-  //   },
-  //   {
-  //     id: '58694a0f-3da1-471f-bd96-145571e29d72',
-  //     title: 'Third Item',
-  //   },
-  // ]
-
-  const Item = ({ item }) => (
-    <View>
-      {/* <Text style={styles.title}>{title}</Text> */}
-      <TextInput
-        name={item.id}
-        onChangeText={choice => NewChoiceList(item.id, choice)}
-        // onChangeText={choice => onChangeText(choice)}
-        style={styleFlatList.item}
-        placeholder={item.choice}
-        value={item.choice}
-      />
-    </View>
-  )
-
-  const renderItem = ({ item }) => <Item item={item} />
-
-  const NewChoiceList = (id, choice) => {
+  const EditNewChoice = (id, choice) => {
     console.log('choice: ', choice);
     console.log('id: ', id);
 
+    const NewOne = choiceList.map((v, i) => {
+      return id == v.id ? {id:id, choice:choice} : v
+    })
+    // console.log('NewOne: ', NewOne);
+    setChoiceList(NewOne)
   }
 
   const startGetChoice = () => {
@@ -97,19 +83,10 @@ export const Container = () => {
         title="Press"
         onPress={() => startGetChoice()}
       />
-      {/* <TextInput
-        onChangeText={text => onChangeText(text)}
-        value={text}
-        placeholder="by walk"
-      /> */}
       <Text style={styles.textArea}>List:</Text>
-      <FlatList
-        style={styleFlatList.flatList}
-        data={choiceList}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        // extraData={selectedId}
-      />
+      <View>
+        {textList(choiceList, EditNewChoice)}
+      </View>
       {appear == true ?
         <CountDown />
         :
@@ -140,7 +117,7 @@ const styles = StyleSheet.create({
   },
 })
 
-styleFlatList = StyleSheet.create({
+const styleFlatList = StyleSheet.create({
   flatList: {
     flexGrow: 0, // defalut 1 on RN Flat List
     // marginTop: 20,
