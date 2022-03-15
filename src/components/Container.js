@@ -4,7 +4,7 @@ import CountDown from './CountDown';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, FlatList } from 'react-native';
 
-  const Item = ({ item, EditNewChoice }) => (
+  const ChoiceItem = ({ item, EditNewChoice }) => (
     <View>
       <TextInput
         name={item.id}
@@ -16,9 +16,9 @@ import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, FlatList }
     </View>
   ) 
 
-  const textList = (items, EditNewChoice) => {
+  const ChoiceList = (items, EditNewChoice) => {
     return items.map((item) => {
-      return <Item key={item.id} item={item} EditNewChoice={EditNewChoice}/>
+      return <ChoiceItem key={item.id} item={item} EditNewChoice={EditNewChoice}/>
     })
   }
 
@@ -78,14 +78,14 @@ export const Container = () => {
       <Text style={styles.text}>Decide your choice instantly.</Text>
       <StatusBar style="auto" />
       <Button
-        // style={styles.button}
+        style={styles.button}
         color="blue"  //text (iOS) or background color (Android).
         title="Press"
         onPress={() => startGetChoice()}
       />
       <Text style={styles.textArea}>List:</Text>
-      <View>
-        {textList(choiceList, EditNewChoice)}
+      <View style={styles.choiceList}>
+        {ChoiceList(choiceList, EditNewChoice)}
       </View>
       {appear == true ?
         <CountDown />
@@ -108,12 +108,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    fontSize: 40,
+  },
   textArea: {
+    fontSize: 25,
     marginTop: 10,
     marginBottom: 5,
   },
   text: {
-    fontSize: 23
+    fontSize: 25
+  },
+  choiceList: {
+    width: "100%"
   },
 })
 
@@ -123,8 +130,16 @@ const styleFlatList = StyleSheet.create({
     // marginTop: 20,
   },
   item: {
-    backgroundColor: '#caddde',
-    marginBottom: 5
+    fontSize: 30,
+    borderWidth: 3,
+    borderColor: '#caddde',
+    borderRadius: 10,
+    height: 60,
+    marginLeft: 8,
+    marginRight: 8,
+    marginBottom: 8,
+    paddingLeft: 5,
+    paddingRight: 5,
   }
 })
 
