@@ -26,16 +26,24 @@ export const Container = () => {
   const [appear, setAppear] = useRecoilState(appearState)
   const [modalVisible, setModalVisible] = useRecoilState(modalVisibleState)
   const [choiceList, setChoiceList] = useRecoilState(choiceListState)
-  
-  const EditNewChoice = (id, choice) => {
-    console.log('choice: ', choice);
-    console.log('id: ', id);
 
-    const NewOne = choiceList.map((v, i) => {
+  const AddChoice = () => {
+    const maxId = choiceList.reduce((num, choice) => {
+      return num < choice.id ? choice.id : num
+    }, 0)
+    // console.log('maxId: ', maxId);
+    const NewChoiceList = choiceList.slice()
+    NewChoiceList.unshift({ id: maxId + 1, choice: '' })
+    // console.log('NewChoiceList: ', NewChoiceList);
+    setChoiceList(NewChoiceList)
+  }
+
+  const EditChoice = (id, choice) => {
+    const NewChoiceList = choiceList.map((v, i) => {
       return id == v.id ? {id:id, choice:choice} : v
     })
-    // console.log('NewOne: ', NewOne);
-    setChoiceList(NewOne)
+    // console.log('NewChoiceList: ', NewChoiceList);
+    setChoiceList(NewChoiceList)
   }
 
   const startGetChoice = () => {
@@ -80,12 +88,18 @@ export const Container = () => {
       <Button
         style={styles.button}
         color="blue"  //text (iOS) or background color (Android).
-        title="Press"
+        title="Get Choice"
         onPress={() => startGetChoice()}
       />
-      <Text style={styles.textArea}>List:</Text>
+      <Text style={styles.textArea}>Your Options:</Text>
+      <Button
+        style={styles.button}
+        color="red"  //text (iOS) or background color (Android).
+        title="New"
+        onPress={() => AddChoice()}
+      />
       <View style={styles.choiceList}>
-        {ChoiceList(choiceList, EditNewChoice)}
+        {ChoiceList(choiceList, EditChoice)}
       </View>
       {appear == true ?
         <CountDown />
