@@ -2,7 +2,7 @@ import { useRecoilState } from 'recoil';
 import { appearState, modalVisibleState, choiceListState, textState } from '../utils/recoilAtom'
 import CountDown from './CountDown';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, ScrollView } from 'react-native';
 
   const ChoiceItem = ({ item, EditNewChoice }) => (
     <View>
@@ -83,34 +83,38 @@ export const Container = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Decide your choice instantly.</Text>
-      <StatusBar style="auto" />
-      <Button
-        style={styles.button}
-        color="blue"  //text (iOS) or background color (Android).
-        title="Get Choice"
-        onPress={() => startGetChoice()}
-      />
-      <Text style={styles.textArea}>Your Options:</Text>
-      <Button
-        style={styles.button}
-        color="red"  //text (iOS) or background color (Android).
-        title="New"
-        onPress={() => AddChoice()}
-      />
-      <View style={styles.choiceList}>
-        {ChoiceList(choiceList, EditChoice)}
+      <View style={styles.mainHeader}>
+        <Text style={styles.text}>Decide your choice instantly.</Text>
+        <StatusBar style="auto" />
+        <Button
+          style={styles.button}
+          color="blue"  //text (iOS) or background color (Android).
+          title="Get Choice"
+          onPress={() => startGetChoice()}
+        />
+        {appear == true ?
+          <CountDown />
+          :
+          <View></View>
+        }
+        {modalVisible == true ?
+          <ShowChoiceModal />
+          :
+          <View></View>
+        }
       </View>
-      {appear == true ?
-        <CountDown />
-        :
-        <View></View>
-      }
-      {modalVisible == true ?
-        <ShowChoiceModal />
-        :
-        <View></View>
-      }
+      <View style={styles.options}>
+        <Text style={styles.textArea}>Your Options:</Text>
+        <Button
+          style={styles.button}
+          color="red"  //text (iOS) or background color (Android).
+          title="New"
+          onPress={() => AddChoice()}
+        />
+        <ScrollView style={styles.choiceList}>
+          {ChoiceList(choiceList, EditChoice)}
+        </ScrollView>
+      </View>
     </View>
   )
 }
@@ -122,6 +126,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  mainHeader: {
+    // flex:1,
+    // flexGrow:1,
+    flexBasis:"30%",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  options: {
+    flexBasis:"70%",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  choiceList: {
+    // flex:1,
+    // flexBasis:"100%",
+    // flexGrow:1,
+    // width: "200%"
+    // width: 300
+  },
   button: {
     fontSize: 40,
   },
@@ -132,9 +155,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 25
-  },
-  choiceList: {
-    width: "100%"
   },
 })
 
@@ -154,6 +174,7 @@ const styleFlatList = StyleSheet.create({
     marginBottom: 8,
     paddingLeft: 5,
     paddingRight: 5,
+    // width:"100%"
   }
 })
 
