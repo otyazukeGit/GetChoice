@@ -3,24 +3,33 @@ import { appearState, modalVisibleState, choiceListState, textState } from '../u
 import CountDown from './CountDown';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, Pressable, TextInput, ScrollView } from 'react-native';
+import SwipeOut from "react-native-swipeout";
 
-  const ChoiceItem = ({ item, EditNewChoice }) => (
-    <View>
-      <TextInput
-        name={item.id}
-        onChangeText={choice => EditNewChoice(item.id, choice)}
-        style={styleFlatList.item}
-        placeholder={item.choice}
-        value={item.choice}
-      />
-    </View>
-  ) 
-
-  const ChoiceList = (items, EditNewChoice) => {
-    return items.map((item) => {
-      return <ChoiceItem key={item.id} item={item} EditNewChoice={EditNewChoice}/>
-    })
+const swipeoutBtns = [
+  {
+    text: 'Button'
   }
+]
+
+const ChoiceItem = ({ item, EditNewChoice }) => (
+  <SwipeOut right={swipeoutBtns}>
+    <View>
+        <TextInput
+          name={item.id}
+          onChangeText={choice => EditNewChoice(item.id, choice)}
+          style={styleFlatList.item}
+          placeholder={item.choice}
+          value={item.choice}
+        />
+    </View>
+  </SwipeOut>
+) 
+
+const ChoiceList = (items, EditNewChoice) => {
+  return items.map((item) => {
+    return <ChoiceItem key={item.id} item={item} EditNewChoice={EditNewChoice}/>
+  })
+}
 
 export const Container = () => {
   const [appear, setAppear] = useRecoilState(appearState)
